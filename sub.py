@@ -38,7 +38,7 @@ receiver_email = "RECEIVER_EMAIL"
 
 # 如果检测到程序在 github actions 内运行，那么读取环境变量中的登录信息
 if os.environ.get('GITHUB_RUN_ID', None):
-    user = os.environ.get('SEP_USER_NAME', '')  # sep账号
+    user = os.environ.get('SEP_USER_NAME', '')  # sep账号 aaa
     passwd = os.environ.get('SEP_PASSWD', '')  # sep密码
     api_key = os.environ.get('API_KEY', '')  # server酱的api，填了可以微信通知打卡结果，不填没影响
 
