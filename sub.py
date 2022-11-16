@@ -144,9 +144,9 @@ def submit(s: requests.Session, old: dict):
         "geo_api_infot":old['geo_api_infot'], 
       
         # yesterday information
-        "old_szdd": old['old_szdd'], 
-        'app_id': 'ucas'，
-        "old_city": old['old_city']}
+        "old_szdd": old['old_szdd'],
+        "old_city": old['old_city'],
+        'app_id': 'ucas'}
     
     r = s.post("https://app.ucas.ac.cn/ncov/api/default/save", data=new_daily)
     print("提交信息:", new_daily)
