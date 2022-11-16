@@ -101,7 +101,8 @@ def submit(s: requests.Session, old: dict):
         "date":  datetime.now(tz=pytz.timezone("Asia/Shanghai")).strftime("%Y-%m-%d"),
         "jzdz": "北京市石景山区玉泉路19号甲中国科学院大学玉泉路校区",
         #"jzdz": old['jzdz'],
-        "zrzsdd": old['zrzsdd'],
+        #"zrzsdd": old['zrzsdd'],
+        "zrzsdd": "1",
         "sfzx": old['sfzx'],
         "szgj": old['szgj'],                     # current country
         "szdd": old['szdd'],                     # current address
@@ -184,7 +185,7 @@ def report(username, password):
         print("\r等待{}秒后填报".format(i),end='')
         sleep(1)
 
-    cookie_file_name = Path("{}.json".format(hashlib.sha512(username.encode()).hexdigest()[:8]))
+cookie_file_name = Path("{}.json".format(hashlib.sha512(username.encode()).hexdigest()[:8]))
     login(s, username, password, cookie_file_name)
     yesterday = get_daily(s)
     submit(s, yesterday)
