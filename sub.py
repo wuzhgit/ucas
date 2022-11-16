@@ -149,10 +149,12 @@ def submit(s: requests.Session, old: dict):
         # "created_uid":"0",
         # "todaysfhsjc":"",
         # "is_daily":1,
-        "geo_api_infot": "{\"address\":\"北京市石景山区",\"details\":\"玉泉路19号甲中国科学院大学玉泉路校区\",\"province\":{\"label\":\"北京市\",\"value\":\"\"},\"city\":{\"label\":\"\",\"value\":\"\"},\"area\":{\"label\":\"石景山区\",\"value\":\"\"}}",
+        #"geo_api_infot": "{\"address\":\"北京市石景山区",\"details\":\"玉泉路19号甲中国科学院大学玉泉路校区\",\"province\":{\"label\":\"北京市\",\"value\":\"\"},\"city\":{\"label\":\"\",\"value\":\"\"},\"area\":{\"label\":\"石景山区\",\"value\":\"\"}}",
 
+        'geo_api_infot': old['geo_api_infot'],
         # yesterday information
         "old_szdd": "国内",
+        'old_city': old['old_city']
      
     }
 
