@@ -99,7 +99,8 @@ def submit(s: requests.Session, old: dict):
 
         # submitted date
         "date":  datetime.now(tz=pytz.timezone("Asia/Shanghai")).strftime("%Y-%m-%d"),
-        "jzdz": old['jzdz'],
+        "jzdz": "北京市石景山区玉泉路19号甲中国科学院大学玉泉路校区",
+        #"jzdz": old['jzdz'],
         "zrzsdd": old['zrzsdd'],
         "sfzx": old['sfzx'],
         "szgj": old['szgj'],                     # current country
