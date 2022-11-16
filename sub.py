@@ -94,68 +94,59 @@ def get_daily(s: requests.Session):
 
 def submit(s: requests.Session, old: dict):
     new_daily = {
-        'realname': old['realname'],
-        'number': old['number'],
+        "number": old['number'],
+        "realname": old['realname'],
 
-        "jzdz": "北京市石景山区玉泉路19号甲",     # Residential Address
-        "zrzsdd": "2",                       # Yesterday place to stay    1.雁栖湖  8.京外
-        # Whether you are in school or not  1.是, 主要是在雁栖湖校区   5.否
-        "sfzx": "2",
-        "szgj": "中国",                       # current country
-        "szdd": "国内",                       # current address
-        "dqszdd": "1",                       # current location
+        # submitted date
+        "date":  datetime.now(tz=pytz.timezone("Asia/Shanghai")).strftime("%Y-%m-%d"),
+        "jzdz": old['jzdz'],
+        "zrzsdd": old['zrzsdd'],
+        "sfzx": old['sfzx'],
+        "szgj": old['szgj'],                     # current country
+        "szdd": old['szdd'],                     # current address
+        "dqszdd": old['dqszdd'],                     # current location
 
         #
-        "address": "北京市怀石景山区",
-        "area": "石景山区",
-        "province": "北京市",
-        "city": "",
-      
-        "geo_api_info": "{\"address\":\"北京市石景山区\",\"details\":\"玉泉路19号甲中国科学院大学玉泉路校区\",\"province\":{\"label\":\"北京市\",\"value\":\"\"},\"city\":{\"label\":\"\",\"value\":\"\"},\"area\":{\"label\":\"石景山区\",\"value\":\"\"}}",
-        "szgj_api_info": "{\"area\":{\"label\":\"\",\"value\":\"\"},\"city\":{\"label\":\"\",\"value\":\"\"},\"address\":\"\",\"details\":\"\",\"province\":{\"label\":\"\",\"value\":\"\"}}",
-        "szgj_select_info": {},
-        #
-
-        # whether you are in high or medium risk area or not  4. 无上述情况
-        "dqsfzzgfxdq": "4",
-        # do you have a travel history in risk area  4. 无上述情况
-        "zgfxljs": "4",
-        "tw": "1",                           # Today’s body temperature 1.37.2℃及以下
+        "geo_api_info": old['geo_api_info'], 
+        "szgj_api_info": old['szgj_api_info'], 
+        "szgj_select_info": old['szgj_select_info'], 
+       
+        # whether you are in high or medium risk area or not  
+        "dqsfzzgfxdq": old['dqsfzzgfxdq'],
+        # do you have a travel history in risk area  
+        "zgfxljs": old['zgfxljs'],
+        "tw": old['tw'],                          # Today’s body temperature 1.37.2℃及以下
         # Do you have such symptoms as fever, fatigue, dry cough or difficulty in breathing today?
-        "sffrzz": "0",
-        "dqqk1": "1",                        # current situation      1.正常
-        "dqqk1qt": "",
-        "dqqk2": "1",                        # current situation      1.无异常
-        "dqqk2qt": "",
+        "sffrzz": old['sffrzz'],
+        "dqqk1": old['dqqk1'],                       # current situation      1.正常
+        "dqqk1qt": old['dqqk1qt'],
+        "dqqk2": old['dqqk2'],                      # current situation      1.无异常
+        "dqqk2qt": old['dqqk2qt'],
         # 昨天是否接受核酸检测
-        "sfjshsjc": "1",                     # PCR test?       1.是 0.否
+        "sfjshsjc": old['sfjshsjc'],                        # PCR test?       1.是 0.否
         # 第一针接种
-        "dyzymjzqk": "3",                    # first vaccination situation  3.已接种
-        "dyzjzsj": "2021-03-27",             # date of first vaccination
-        "dyzwjzyy": "",
+        "dyzymjzqk": old['dyzymjzqk'],                   # first vaccination situation  3.已接种
+        "dyzjzsj": old['dyzjzsj'],              # date of first vaccination
+        "dyzwjzyy": old['dyzwjzyy'],  
         # 第二针接种
-        "dezymjzqk": "3",                    # second vaccination situation  3.已接种
-        "dezjzsj": "2021-04-21",             # date of second vaccination
-        "dezwjzyy": "",
+        "dezymjzqk": old['dezymjzqk'],                     # second vaccination situation  3.已接种
+        "dezjzsj": old['dezjzsj'],              # date of second vaccination
+        "dezwjzyy": old['dezwjzyy'],  
         # 第三针接种
-        "dszymjzqk": "3",                    # third vaccination situation  6.未接种
-        "dszjzsj": "2021-11-02",             # default time
-        "dszwjzyy": "",            # reason of non-vaccination
+        "dszymjzqk": old['dszymjzqk'],                     # third vaccination situation  6.未接种
+        "dszjzsj": old['dszjzsj'],              # default time
+        "dszwjzyy": old['dszwjzyy'],           # reason of non-vaccination
 
-        "gtshryjkzk": "1",                   # health situation
-        "extinfo": "",                       # other information
+        "gtshryjkzk": old['gtshryjkzk'],                    # health situation
+        "extinfo": old['extinfo'],                     # other information
         # personal information
-
-        # "created_uid":"0",
-        # "todaysfhsjc":"",
-        # "is_daily":1,
-        #"geo_api_infot": "{\"address\":\"北京市石景山区",\"details\":\"玉泉路19号甲中国科学院大学玉泉路校区\",\"province\":{\"label\":\"北京市\",\"value\":\"\"},\"city\":{\"label\":\"\",\"value\":\"\"},\"area\":{\"label\":\"石景山区\",\"value\":\"\"}}",
-
-        "geo_api_infot": "{\"address\":\"北京市石景山区\",\"details\":\"玉泉路19号甲中国科学院大学玉泉路校区\",\"province\":{\"label\":\"北京市\",\"value\":\"\"},\"city\":{\"label\":\"\",\"value\":\"\"},\"area\":{\"label\":\"s石景山区\",\"value\":\"\"}}",
+        
+        "geo_api_infot":old['geo_api_infot'], 
+      
         # yesterday information
-        "old_szdd": "国内",
-        'app_id': 'ucas',
-        'old_city': old['old_city']}
+        "old_szdd": old['old_szdd'], 
+        'app_id': 'ucas'，
+        "old_city": old['old_city']}
     
     r = s.post("https://app.ucas.ac.cn/ncov/api/default/save", data=new_daily)
     print("提交信息:", new_daily)
@@ -199,4 +190,3 @@ def report(username, password):
 
 if __name__ == "__main__":
     report(username=user, password=passwd)
-    
