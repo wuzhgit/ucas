@@ -156,87 +156,31 @@ def submit(s: requests.Session, old: dict):
         "old_szdd": "国内",
         'app_id': 'ucas',
         'old_city': old['old_city']}
-
+    
     r = s.post("https://app.ucas.ac.cn/ncov/api/default/save", data=new_daily)
-    if debug:
-        from urllib.parse import parse_qs, unquote
-        print("昨日信息:", json.dumps(old, ensure_ascii=False, indent=2))
-        print("提交信息:",
-              json.dumps(parse_qs(unquote(r.request.body), keep_blank_values=True), indent=2, ensure_ascii=False))
-
+    print("提交信息:", new_daily)
+    # print(r.text)
     result = r.json()
     if result.get('m') == "操作成功":
         print("打卡成功")
+        if api_key:
+            message(api_key, result.get('m'), new_daily)
     else:
         print("打卡失败，错误信息: ", r.json().get("m"))
-
-    message(api_key, sender_email, sender_email_passwd, receiver_email, result.get('m'), new_daily)
-
-
-def message(key, sender, mail_passwd, receiver, subject, msg):
-    """
-    再封装一下 :) 减少调用通知写的代码
-    """
-    if api_key != "":
-        server_chan_message(key, subject, msg)
-    if sender_email != "" and receiver_email != "":
-        send_email(sender, mail_passwd, receiver, subject, msg)
+        if api_key:
+            message(api_key, result.get('m'), new_daily)
 
 
-def server_chan_message(key, title, body):
+def message(key, title, body):
     """
     微信通知打卡结果
     """
-    # 错误的key也可以发送消息，无需处理 :)
-    msg_url = "https://sctapi.ftqq.com/{}.send?text={}&desp={}".format(key, title, body)
+    msg_url = "https://sc.ftqq.com/{}.send?text={}&desp={}".format(key, title, body)
     requests.get(msg_url)
 
 
-def send_email(sender, mail_passwd, receiver, subject, msg):
-    """
-    邮件通知打卡结果
-    """
-    try:
-        body = MIMEText(str(msg), 'plain', 'utf-8')
-        body['From'] = formataddr(["notifier", sender])
-        body['To'] = formataddr(["me", receiver])
-        body['Subject'] = "UCAS疫情填报助手通知-" + subject
-
-        global smtp_port, smtp_server
-        if smtp_server == "" or smtp_port == "":
-            smtp_port = 465
-            smtp_server = "smtp.qq.com"
-        smtp = smtplib.SMTP_SSL(smtp_server, smtp_port)
-        smtp.login(sender, mail_passwd)
-        smtp.sendmail(sender, receiver, body.as_string())
-        smtp.quit()
-        print("邮件发送成功")
-    except Exception as ex:
-        print("邮件发送失败")
-        if debug:
-            print(ex)
-
-
-def report(username, password):
-    s = requests.Session()
-    s.verify = verify_cert  # 不验证证书
-    header = {
-        "User-Agent": "Mozilla/5.0 (Linux; Android 10; AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 \
-        Chrome/78.0.3904.62 XWEB/2693 MMWEBSDK/201201 Mobile Safari/537.36 MMWEBID/1300 \
-        MicroMessenger/7.0.22.1820 WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64"
-    }
-    s.headers.update(header)
-
+if __name__ == "__main__":
     print(datetime.now(tz=pytz.timezone("Asia/Shanghai")).strftime("%Y-%m-%d %H:%M:%S %Z"))
-    for i in range(randint(10,60),0,-1):
-        print("\r等待{}秒后填报".format(i),end='')
-        sleep(1)
-
-    cookie_file_name = Path("{}.json".format(hashlib.sha512(username.encode()).hexdigest()[:8]))
-    login(s, username, password, cookie_file_name)
+    login(s, user, passwd)
     yesterday = get_daily(s)
     submit(s, yesterday)
-
-
-if __name__ == "__main__":
-    report(username=user, password=passwd)
