@@ -177,10 +177,26 @@ def message(key, title, body):
     """
     msg_url = "https://sc.ftqq.com/{}.send?text={}&desp={}".format(key, title, body)
     requests.get(msg_url)
+def report(username, password):
+    s = requests.Session()
+    s.verify = verify_cert  # 不验证证书
+    header = {
+        "User-Agent": "Mozilla/5.0 (Linux; Android 10; AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 \
+        Chrome/78.0.3904.62 XWEB/2693 MMWEBSDK/201201 Mobile Safari/537.36 MMWEBID/1300 \
+        MicroMessenger/7.0.22.1820 WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64"
+    }
+    s.headers.update(header)
 
-
-if __name__ == "__main__":
     print(datetime.now(tz=pytz.timezone("Asia/Shanghai")).strftime("%Y-%m-%d %H:%M:%S %Z"))
-    login(s, user, passwd)
+    for i in range(randint(10,60),0,-1):
+        print("\r等待{}秒后填报".format(i),end='')
+        sleep(1)
+
+    cookie_file_name = Path("{}.json".format(hashlib.sha512(username.encode()).hexdigest()[:8]))
+    login(s, username, password, cookie_file_name)
     yesterday = get_daily(s)
     submit(s, yesterday)
+
+if __name__ == "__main__":
+    report(username=user, password=passwd)
+    
