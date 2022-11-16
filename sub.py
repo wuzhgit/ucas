@@ -154,9 +154,8 @@ def submit(s: requests.Session, old: dict):
         "geo_api_infot": "{\"address\":\"北京市石景山区\",\"details\":\"玉泉路19号甲中国科学院大学玉泉路校区\",\"province\":{\"label\":\"北京市\",\"value\":\"\"},\"city\":{\"label\":\"\",\"value\":\"\"},\"area\":{\"label\":\"s石景山区\",\"value\":\"\"}}",
         # yesterday information
         "old_szdd": "国内",
-        'old_city': old['old_city']
-     
-    }
+        'app_id': 'ucas',
+        'old_city': old['old_city']}
 
     r = s.post("https://app.ucas.ac.cn/ncov/api/default/save", data=new_daily)
     if debug:
