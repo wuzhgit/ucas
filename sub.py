@@ -184,8 +184,8 @@ def report(username, password):
     for i in range(randint(10,60),0,-1):
         print("\r等待{}秒后填报".format(i),end='')
         sleep(1)
-
-cookie_file_name = Path("{}.json".format(hashlib.sha512(username.encode()).hexdigest()[:8]))
+        
+    cookie_file_name = Path("{}.json".format(hashlib.sha512(username.encode()).hexdigest()[:8]))
     login(s, username, password, cookie_file_name)
     yesterday = get_daily(s)
     submit(s, yesterday)
